@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiaogai.mapper.PrintMapper" >
+  <resultMap id="BaseResultMap" type="com.jiaogai.pojo.Print" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="project_id" property="projectId" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.jiaogai.pojo.PrintWithBLOBs" extends="BaseResultMap" >
+    <result column="print_one" property="printOne" jdbcType="LONGVARCHAR" />
+    <result column="print_two" property="printTwo" jdbcType="LONGVARCHAR" />
+    <result column="print_three" property="printThree" jdbcType="LONGVARCHAR" />
+    <result column="print_four" property="printFour" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, project_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    print_one, print_two, print_three, print_four
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.jiaogai.pojo.PrintExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from print
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.jiaogai.pojo.PrintExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from print
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from print
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from print
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jiaogai.pojo.PrintExample" >
+    delete from print
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jiaogai.pojo.PrintWithBLOBs" >
+    insert into print (id, project_id, print_one, 
+      print_two, print_three, print_four
+      )
+    values (#{id,jdbcType=BIGINT}, #{projectId,jdbcType=INTEGER}, #{printOne,jdbcType=LONGVARCHAR}, 
+      #{printTwo,jdbcType=LONGVARCHAR}, #{printThree,jdbcType=LONGVARCHAR}, #{printFour,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jiaogai.pojo.PrintWithBLOBs" >
+    insert into print
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="printOne != null" >
+        print_one,
+      </if>
+      <if test="printTwo != null" >
+        print_two,
+      </if>
+      <if test="printThree != null" >
+        print_three,
+      </if>
+      <if test="printFour != null" >
+        print_four,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="printOne != null" >
+        #{printOne,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="printTwo != null" >
+        #{printTwo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="printThree != null" >
+        #{printThree,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="printFour != null" >
+        #{printFour,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jiaogai.pojo.PrintExample" resultType="java.lang.Integer" >
+    select count(*) from print
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update print
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.projectId != null" >
+        project_id = #{record.projectId,jdbcType=INTEGER},
+      </if>
+      <if test="record.printOne != null" >
+        print_one = #{record.printOne,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.printTwo != null" >
+        print_two = #{record.printTwo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.printThree != null" >
+        print_three = #{record.printThree,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.printFour != null" >
+        print_four = #{record.printFour,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update print
+    set id = #{record.id,jdbcType=BIGINT},
+      project_id = #{record.projectId,jdbcType=INTEGER},
+      print_one = #{record.printOne,jdbcType=LONGVARCHAR},
+      print_two = #{record.printTwo,jdbcType=LONGVARCHAR},
+      print_three = #{record.printThree,jdbcType=LONGVARCHAR},
+      print_four = #{record.printFour,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update print
+    set id = #{record.id,jdbcType=BIGINT},
+      project_id = #{record.projectId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jiaogai.pojo.PrintWithBLOBs" >
+    update print
+    <set >
+      <if test="projectId != null" >
+        project_id = #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="printOne != null" >
+        print_one = #{printOne,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="printTwo != null" >
+        print_two = #{printTwo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="printThree != null" >
+        print_three = #{printThree,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="printFour != null" >
+        print_four = #{printFour,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jiaogai.pojo.PrintWithBLOBs" >
+    update print
+    set project_id = #{projectId,jdbcType=INTEGER},
+      print_one = #{printOne,jdbcType=LONGVARCHAR},
+      print_two = #{printTwo,jdbcType=LONGVARCHAR},
+      print_three = #{printThree,jdbcType=LONGVARCHAR},
+      print_four = #{printFour,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jiaogai.pojo.Print" >
+    update print
+    set project_id = #{projectId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

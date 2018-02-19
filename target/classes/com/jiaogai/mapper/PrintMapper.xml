@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiaogai.mapper.PrintMapper" >
+  <resultMap id="BaseResultMap" type="com.jiaogai.model.Print" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="project_id" property="projectId" jdbcType="BIGINT" />
+    <result column="print_one" property="printOne" jdbcType="LONGVARCHAR" />
+    <result column="print_two" property="printTwo" jdbcType="LONGVARCHAR" />
+    <result column="print_three" property="printThree" jdbcType="LONGVARCHAR" />
+    <result column="print_four" property="printFour" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+      id,project_id as projectId,print_one as printOne,print_two as printTwo,
+      print_three as printThree,print_four as printFour
+   </sql>
+   <select id="selectByProjectId" resultType="com.jiaogai.model.Print" parameterType="java.lang.Long">
+       select id,project_id as projectId,print_one as printOne,print_two as printTwo,
+      print_three as printThree,print_four as printFour from print
+      where project_id=#{projectId}
+   </select>
+</mapper>

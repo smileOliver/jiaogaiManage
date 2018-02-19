@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiaogai.mapper.TeacherMapper" >
+  <resultMap id="BaseResultMap" type="com.jiaogai.model.Teacher" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="t_name" property="tName" jdbcType="VARCHAR" />
+    <result column="t_sex" property="tSex" jdbcType="VARCHAR" />
+    <result column="t_birthday" property="tBirthday" jdbcType="VARCHAR" />
+    <result column="t_qq" property="tQq" jdbcType="VARCHAR" />
+    <result column="t_tel" property="tTel" jdbcType="VARCHAR" />
+    <result column="t_email" property="tEmail" jdbcType="VARCHAR" />
+    <result column="id_number" property="idNumber" jdbcType="VARCHAR" />
+    <result column="teacher_num" property="teacherNum" jdbcType="INTEGER" />
+    <result column="department_id" property="departmentId" jdbcType="BIGINT" />
+    <result column="department_name" property="departmentName" jdbcType="VARCHAR" />
+    <result column="faction_id" property="factionId" jdbcType="BIGINT" />
+    <result column="faction_name" property="factionName" jdbcType="VARCHAR" />
+    <result column="t_password" property="tPassword" jdbcType="VARCHAR" />
+    <result column="is_professor" property="isProfessor" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="max_degree" property="maxDegree" jdbcType="VARCHAR" />
+    <result column="job_title" property="jobTitle" jdbcType="VARCHAR" />
+    <result column="head_img" property="headImg" jdbcType="VARCHAR" />
+    <result column="id_phone" property="idPhone" jdbcType="VARCHAR" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+      id,t_name as tName,t_sex as tSex,t_birthday as tBirthday,
+      t_qq as tQq,t_tel as tTel,t_email as tEmail,id_number as idNumber,
+      teacher_num as teacherNum,department_id as departmentId,
+      department_name as departmentName,faction_id as factionId,
+      faction_name as factionName,t_password as tPassword,
+      is_professor as isProfessor,state,resume,max_degree as maxDegree,
+      job_title as jobTitle,head_img as headImg,id_phone as idPhone,nickname
+  </sql>
+  <!-- 根据条件查询 -->
+  <select id="selectTeacherPage" resultType="Map">
+      select id,t_name as tName,t_sex as tSex,t_birthday as tBirthday,
+      t_qq as tQq,t_tel as tTel,t_email as tEmail,id_number as idNumber,
+      teacher_num as teacherNum,department_id as departmentId,
+      department_name as departmentName,faction_id as factionId,
+      faction_name as factionName,t_password as tPassword,
+      is_professor as isProfessor,state,resume,max_degree as maxDegree,
+      job_title as jobTitle,head_img as headImg,id_phone as idPhone from teacher
+      <where>
+          <if test="tName !=null and tName != '' ">
+              t_name=#{tName}
+          </if>
+          <if test="teacherNum != null">
+              teacher_num =#{teacherNum}
+          </if>
+          <if test="departmentName != null and departmentName != '' ">
+              department_name = #{departmentName}
+          </if>
+          <if test="isProfessor != null">
+             and is_professor=#{isProfessor}
+          </if>
+          <if test="state != null">
+             and state = #{state}
+          </if>
+      </where>
+      GROUP BY id
+  </select>
+  <select id="selectDeclareIdListByTeacherId" resultType="java.lang.Long" parameterType="java.lang.Long">
+        SELECT
+           e.type_id AS id
+        FROM
+            teacher d
+        LEFT JOIN type_professor e ON d.id = e.teacher_id
+        WHERE
+            d.id = #{id}
+    </select>
+  <update id="updateStatus" parameterType="com.jiaogai.model.Teacher">
+      update teacher set state=#{state},is_professor=#{isProfessor} where id=#{id}
+  </update>
+</mapper>

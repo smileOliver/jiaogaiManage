@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiaogai.mapper.DeclareTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.jiaogai.model.DeclareType" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+    <result column="type_desc" property="typeDesc" jdbcType="VARCHAR" />
+  </resultMap>
+ <sql id="Base_Column_List">
+     id, type_name as typeName,type_desc as typeDesc
+ </sql>
+ <select id="selectAllTypes" resultType="com.jiaogai.model.DeclareType">
+     select id,type_name as typeName,type_desc as typeDesc from declare_type
+ </select>
+ 
+</mapper>

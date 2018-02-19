@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiaogai.mapper.FactionMapper" >
+  <resultMap id="BaseResultMap" type="com.jiaogai.pojo.Faction" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="f_name" property="fName" jdbcType="VARCHAR" />
+    <result column="f_desc" property="fDesc" jdbcType="VARCHAR" />
+    <result column="d_id" property="dId" jdbcType="INTEGER" />
+    <result column="d_name" property="dName" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <!-- 通用查询列 -->
+  <sql id="Base_Column_List">
+      id,f_name AS fName,f_desc AS fDesc,d_id AS dId,d_name AS dName,status
+  </sql>
+</mapper>

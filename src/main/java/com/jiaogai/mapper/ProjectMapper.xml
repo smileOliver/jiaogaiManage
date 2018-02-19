@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiaogai.mapper.ProjectMapper" >
+  <resultMap id="ProjectResultMap" type="com.jiaogai.model.vo.ProjectVo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="p_title" property="pTitle" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="VARCHAR" />
+    <result column="groups" property="groups" jdbcType="VARCHAR"/>
+    <result column="according" property="according" jdbcType="LONGVARCHAR"/>
+    <result column="status" property="status" jdbcType="INTEGER"/>
+    <result column="apply_time" property="applyTime" jdbcType="VARCHAR"/>
+   <!--教师信息 -->
+    <result column="t_id" property="teacherId" jdbcType="BIGINT" />
+    <result column="t_name" property="teacherName" jdbcType="VARCHAR"/>
+    <result column="t_sex" property="teacherName" jdbcType="VARCHAR"/>
+    <result column="t_birthday" property="tBirthday" jdbcType="VARCHAR"/>
+    <result column="resume" property="resume" jdbcType="VARCHAR"/>
+    <!--部门信息  -->
+    <result column="d_name" property="dName" jdbcType="VARCHAR"/>
+    <result column="d_address" property="dAddress" jdbcType="VARCHAR"/>
+    <result column="d_tel" property="dTel" jdbcType="VARCHAR"/>
+    <result column="d_email" property="dEmail" jdbcType="VARCHAR"/>
+    <!--类型  -->
+    <result column="type_id" property="typeId" jdbcType="INTEGER"/>
+    <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
+    
+    <!-- 项目实施方案及计划 -->
+    <result column="print_one" property="printOne" jdbcType="LONGVARCHAR"/>
+    <result column="print_two" property="printTwo" jdbcType="LONGVARCHAR"/>
+    <result column="print_three" property="printThree" jdbcType="LONGVARCHAR"/>
+  	<result column="print_four" property="printFour" jdbcType="LONGVARCHAR"/>
+	<!--  教学改革基础-->
+	<result column="basics_one" property="basicsOne" jdbcType="LONGVARCHAR"/>  
+  	<result column="basics_two" property="basicsTwo" jdbcType="LONGVARCHAR"/>
+    <!--小组成员集合 -->
+    <collection property="groupList" ofType="com.jiaogai.model.Group">
+        <id column="groupId" property="id" jdbcType="BIGINT"/>
+        <result column="g_name" property="gName" jdbcType="VARCHAR"/>
+	    <result column="birthday" property="gBirthday" jdbcType="VARCHAR"/>
+	    <result column="job_title" property="jobTitle" jdbcType="VARCHAR"/>
+	    <result column="work_unit" property="workUnit" jdbcType="VARCHAR"/>
+	    <result column="fengong" property="fengong" jdbcType="VARCHAR"/>
+	    <result column="qianzhang" property="qianzhang" jdbcType="VARCHAR"/>
+    </collection>
+  	<!--  教师项目研究成果集合-->
+  	<collection property="resultList" ofType="com.jiaogai.model.Result">
+      <id column="resultId" property="id" jdbcType="BIGINT"/>
+      <result column="result_time" property="resultTime" jdbcType="VARCHAR"/>
+      <result column="department_name" property="departmentName" jdbcType="VARCHAR"/>
+      <result column="award" property="award" jdbcType="VARCHAR"/>
+      <result column="grade" property="grade" jdbcType="VARCHAR"/>   
+    </collection>
+  	<!-- 经费预算 -->
+  	<collection property="budgetList" ofType="com.jiaogai.model.Budget">
+  	    <id column="budgetId" property="id"/>
+  	    <result column="subject" property="subject" jdbcType="VARCHAR"/>
+  	    <result column="money" property="money" jdbcType="VARCHAR"/>
+  	    <result column="reason" property="reason" jdbcType="VARCHAR"/>
+  	</collection>
+  </resultMap>
+  
+  <!-- 通用查询结果列-->
+    <sql id="Base_Column_List">
+      id,p_title as pTitle,create_time as createTime,end_time as endTime,
+      t_id as tId,teacher_name as teacherName,type_id as typeId,
+      type_name as typeName,groups,according,status,real_money as realMoney,
+      apply_time as applyTime,department_name AS departmentName,budget_money as budgetMoney
+    </sql>
+    <!-- 根据条件查询 -->
+  <select id="selectProjectPage" resultType="Map">
+      select p.id,p.p_title as pTitle,p.create_time as createTime,p.end_time as endTime,
+      p.t_id as tId,p.teacher_name as teacherName,p.type_id as typeId,
+      p.type_name as typeName,p.groups,p.status,p.budget_money as budgetMoney,
+      p.real_money as realMoney,p.apply_time as applyTime,p.department_name AS departmentName
+      from project p 
+      <where>
+          <if test="pTitle != null and pTitle != ''">
+              p_title like CONCAT('%',#{pTitle},'%')
+          </if>
+          <if test="teacherName != null and teacherName != ''">
+              teacher_name like CONCAT('%',#{teacherName},'%') 
+          </if>
+          <if test="typeName != null and typeName != ''">
+              type_name  like CONCAT('%',#{typeName},'%')
+          </if>
+          <if test="status != null">
+              status = #{status}
+          </if>
+      </where>
+      group by id
+   </select>
+   <select id="selectProjectById" resultMap="ProjectResultMap" parameterType="java.lang.Long">
+       select 
+		p.p_title AS pTitle,p.according AS according,p.groups  AS groups,
+		p.end_time AS endTime,p.apply_time AS applyTime,
+		p.create_time AS createTime,
+		t.t_name AS teacherName,t.t_sex as teacherSex,t.t_birthday AS tBirthday,
+		t.resume AS resume,
+		r.award AS award,r.grade AS grade,r.result_time AS resultTime,
+		r.department_name as departmentName,
+		d.d_name AS dName,d.d_address AS dAddress,d.d_email AS dEmail,
+		d.d_tel as dTel,d.d_phone AS dPhone,
+		y.type_name AS typeName,
+		g.g_name AS gName,g.birthday AS gBirthday,g.job_title AS
+		jobTitle,g.work_unit AS workUnit,g.fengong AS fengong,
+		g.qianzhang AS qianzhang,
+		i.print_one AS printOne,i.print_two AS printTwo,
+		i.print_three AS printThree,i.print_four as printFour,
+		s.basics_one AS basicsOne,s.basics_two AS basicsTwo,
+		e.money AS money,e.reason AS reason,
+		e.`subject` AS `subject`
+		FROM project  p
+		LEFT JOIN teacher t  ON t.id=p.t_id 
+		LEFT JOIN department d ON d.id=t.department_id
+		LEFT JOIN result r ON  r.teacher_id =t.id
+		LEFT JOIN declare_type y ON y.id=p.type_id
+		LEFT JOIN `group` g ON g.project_id = p.id
+		LEFT JOIN print i ON i.project_id =p.id
+		LEFT JOIN basics s ON s.project_id=p.id
+		LEFT JOIN budget e ON e.project_id=p.id
+		<where>
+		     p.id=#{id}
+		</where>
+   </select>
+   <!--查询单个详情  -->
+   <select id="selectDetailById" resultType="com.jiaogai.model.Project" parameterType="java.lang.Long">
+      select p.id,p.p_title as pTitle,p.create_time as createTime,p.end_time as endTime,
+      p.t_id as tId,p.teacher_name as teacherName,p.type_id as typeId,p.according,
+      p.type_name as typeName,p.groups,p.status,p.budget_money as budgetMoney,
+      p.real_money as realMoney,p.apply_time as applyTime,p.department_name AS departmentName
+      from project p 
+      where p.id=#{id}
+   </select>
+   <update id="updateRealMoney" parameterType="com.jiaogai.model.Project">
+       update project set real_money=#{realMoney}
+   </update>
+</mapper>  

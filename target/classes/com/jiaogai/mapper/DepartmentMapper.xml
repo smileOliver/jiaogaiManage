@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiaogai.mapper.DepartmentMapper" >
+  <resultMap id="BaseResultMap" type="com.jiaogai.model.Department" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="d_name" property="dName" jdbcType="VARCHAR" />
+    <result column="d_desc" property="dDesc" jdbcType="VARCHAR" />
+    <result column="d_address" property="dAddress" jdbcType="VARCHAR" />
+    <result column="d_tel" property="dTel" jdbcType="VARCHAR" />
+    <result column="type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <!-- 通用查询结果列 -->
+  <sql id="Base_Column_List">
+        id, d_name AS dName,d_desc AS dDesc,d_address AS dAddress,d_tel AS dTel,
+        type_id AS typeId,type_name AS typeName,status
+  </sql>
+  <select id="selectCollege" resultType="com.jiaogai.model.Department">
+     select id, d_name AS dName FROM department where  type_id in (2,4) and status=0
+  </select>
+</mapper>

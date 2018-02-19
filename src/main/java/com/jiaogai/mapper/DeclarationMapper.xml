@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiaogai.mapper.DeclarationMapper" >
+  <resultMap id="BaseResultMap" type="com.jiaogai.model.Declaration" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="declaration_title" property="declarationTitle" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="declaration_content" property="declarationContent" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <!-- 通用查询结果列-->
+    <sql id="Base_Column_List">
+        id,declaration_title AS declarationTitle,declaration_content AS declarationContent,
+        create_time AS createTime,user_id AS userId,user_name AS userName,status
+    </sql>
+</mapper>

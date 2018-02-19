@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiaogai.mapper.ResultMapper" >
+  <resultMap id="BaseResultMap" type="com.jiaogai.pojo.Result" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="result_time" property="resultTime" jdbcType="VARCHAR" />
+    <result column="project_title" property="projectTitle" jdbcType="VARCHAR" />
+    <result column="department_name" property="departmentName" jdbcType="VARCHAR" />
+    <result column="award" property="award" jdbcType="VARCHAR" />
+    <result column="grade" property="grade" jdbcType="VARCHAR" />
+    <result column="projectId" property="projectid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, result_time, project_title, department_name, award, grade, projectId
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.jiaogai.pojo.ResultExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from result
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from result
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from result
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jiaogai.pojo.ResultExample" >
+    delete from result
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jiaogai.pojo.Result" >
+    insert into result (id, result_time, project_title, 
+      department_name, award, grade, 
+      projectId)
+    values (#{id,jdbcType=BIGINT}, #{resultTime,jdbcType=VARCHAR}, #{projectTitle,jdbcType=VARCHAR}, 
+      #{departmentName,jdbcType=VARCHAR}, #{award,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, 
+      #{projectid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jiaogai.pojo.Result" >
+    insert into result
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="resultTime != null" >
+        result_time,
+      </if>
+      <if test="projectTitle != null" >
+        project_title,
+      </if>
+      <if test="departmentName != null" >
+        department_name,
+      </if>
+      <if test="award != null" >
+        award,
+      </if>
+      <if test="grade != null" >
+        grade,
+      </if>
+      <if test="projectid != null" >
+        projectId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="resultTime != null" >
+        #{resultTime,jdbcType=VARCHAR},
+      </if>
+      <if test="projectTitle != null" >
+        #{projectTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentName != null" >
+        #{departmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="award != null" >
+        #{award,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="projectid != null" >
+        #{projectid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jiaogai.pojo.ResultExample" resultType="java.lang.Integer" >
+    select count(*) from result
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update result
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.resultTime != null" >
+        result_time = #{record.resultTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectTitle != null" >
+        project_title = #{record.projectTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.departmentName != null" >
+        department_name = #{record.departmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.award != null" >
+        award = #{record.award,jdbcType=VARCHAR},
+      </if>
+      <if test="record.grade != null" >
+        grade = #{record.grade,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectid != null" >
+        projectId = #{record.projectid,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update result
+    set id = #{record.id,jdbcType=BIGINT},
+      result_time = #{record.resultTime,jdbcType=VARCHAR},
+      project_title = #{record.projectTitle,jdbcType=VARCHAR},
+      department_name = #{record.departmentName,jdbcType=VARCHAR},
+      award = #{record.award,jdbcType=VARCHAR},
+      grade = #{record.grade,jdbcType=VARCHAR},
+      projectId = #{record.projectid,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jiaogai.pojo.Result" >
+    update result
+    <set >
+      <if test="resultTime != null" >
+        result_time = #{resultTime,jdbcType=VARCHAR},
+      </if>
+      <if test="projectTitle != null" >
+        project_title = #{projectTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentName != null" >
+        department_name = #{departmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="award != null" >
+        award = #{award,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="projectid != null" >
+        projectId = #{projectid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jiaogai.pojo.Result" >
+    update result
+    set result_time = #{resultTime,jdbcType=VARCHAR},
+      project_title = #{projectTitle,jdbcType=VARCHAR},
+      department_name = #{departmentName,jdbcType=VARCHAR},
+      award = #{award,jdbcType=VARCHAR},
+      grade = #{grade,jdbcType=VARCHAR},
+      projectId = #{projectid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
